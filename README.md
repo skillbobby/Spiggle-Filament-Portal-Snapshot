@@ -5,13 +5,11 @@ A Filament **4.x and 5.x** panel plugin for database snapshots. It sits on top o
 - take a snapshot now
 - restore / revert a snapshot
 - export (download) a dump
-- copy a dump to remote storage (S3, GCS, SFTP, Google Drive via a Flysystem disk, …)
+- copy a dump to remote storage (S3, GCS, SFTP, Google Drive via a Flysystem disk)
 - schedule recurring snapshots
 - schedule a **midnight demo reset** against a golden baseline
 - clean up old dumps
 - get a Filament bell notification and a queued email when work finishes
-
-Built for portal and demo sites that need a known-good database at 00:00 every night — and for teams that want on-demand dumps without leaving the admin panel.
 
 ## Requirements
 
@@ -22,61 +20,57 @@ Built for portal and demo sites that need a known-good database at 00:00 every n
 | Filament | ^4.0 or ^5.0 |
 | `spatie/laravel-db-snapshots` | ^2.6 |
 
-MySQL, MariaDB, PostgreSQL and SQLite are supported — whatever Spatie can dump.
-
 ## Installation
 
 ```bash
 composer require spiggle/filament-portal-snapshot
-```
-
-The Spatie package is pulled in automatically. Add a `snapshots` disk if you do not already have one:
-
-```php
-// config/filesystems.php
-'disks' => [
-    'snapshots' => [
-        'driver' => 'local',
-        'root' => database_path('snapshots'),
-    ],
-],
-```
-
-```bash
-php artisan vendor:publish --tag="filament-portal-snapshot-config"
-php artisan vendor:publish --tag="filament-portal-snapshot-migrations"
-php artisan migrate
-# or
 php artisan filament-portal-snapshot:install
 ```
 
-Register the plugin on each panel:
+Add a `snapshots` disk to `config/filesystems.php`:
+
+```php
+'snapshots' => [
+    'driver' => 'local',
+    'root' => database_path('snapshots'),
+],
+```
+
+Register the plugin:
 
 ```php
 use Spiggle\FilamentPortalSnapshot\FilamentPortalSnapshotPlugin;
 
-public function panel(Panel $panel): Panel
-{
-    return $panel
-        ->plugin(
-            FilamentPortalSnapshotPlugin::make()
-                ->authorize(fn (): bool => auth()->user()?->is_admin ?? false)
-                ->navigationGroup('Portal')
-                ->navigationSort(80)
-        );
-}
+$panel->plugin(
+    FilamentPortalSnapshotPlugin::make()
+        ->authorize(fn (): bool => auth()->user()?->is_admin ?? false)
+        ->navigationGroup('Portal')
+        ->navigationSort(80)
+);
 ```
 
-Ensure the Laravel scheduler is running. The plugin registers `portal-snapshot:run-schedules` every minute.
+Ensure Laravel's scheduler is running. The plugin registers `portal-snapshot:run-schedules` every minute.
 
 ## Demo reset
 
 1. Create a snapshot while the portal looks correct.
-2. Mark it golden.
+2. Mark it golden on **Portal \u2192 Snapshots**.
 3. Add a schedule: Restore snapshot / Every night at 00:00 / Restore the golden snapshot.
+
+## Configuration
+
+See `config/filament-portal-snapshot.php` for restore environments, confirmation phrase, remote disks, mail recipients, retention and queue settings.
+
+```env
+PORTAL_SNAPSHOT_COMPRESS=true
+PORTAL_SNAPSHOT_KEEP=14
+PORTAL_SNAPSHOT_QUEUE=default
+PORTAL_SNAPSHOT_REMOTE_ENABLED=true
+PORTAL_SNAPSHOT_REMOTE_DISKS=s3,backups
+PORTAL_SNAPSHOT_MAIL=true
+PORTAL_SNAPSHOT_MAIL_RECIPIENTS=ops@example.com
+```
 
 ## License
 
-MIT © Spiggle
-
-See the published `config/filament-portal-snapshot.php` for remote disks, mail recipients, restore environments, retention and queue settings.
+MIT \u00a9 Spiggle
