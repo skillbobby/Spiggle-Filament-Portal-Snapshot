@@ -76,4 +76,4 @@ PORTAL_SNAPSHOT_MAIL_RECIPIENTS=ops@example.com
 
 ## License
 
-MIT \u00a9 Spiggle
+MIT \ Spiggle - @iamspiggle
