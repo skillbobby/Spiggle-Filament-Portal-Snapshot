@@ -3,6 +3,7 @@
 namespace Spiggle\FilamentPortalSnapshot\Filament\Resources\SnapshotSchedules;
 
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -12,11 +13,13 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\Toggle;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Spiggle\FilamentPortalSnapshot\Enums\ScheduleAction;
 use Spiggle\FilamentPortalSnapshot\Enums\ScheduleFrequency;
 use Spiggle\FilamentPortalSnapshot\Filament\Resources\SnapshotSchedules\Pages\CreateSnapshotSchedule;
@@ -26,25 +29,53 @@ use Spiggle\FilamentPortalSnapshot\FilamentPortalSnapshotPlugin;
 use Spiggle\FilamentPortalSnapshot\Models\SnapshotSchedule;
 use Spiggle\FilamentPortalSnapshot\Services\RemoteStorageService;
 use Spiggle\FilamentPortalSnapshot\Services\SnapshotManager;
+use Spiggle\FilamentPortalSnapshot\Support\ManagerGate;
 use UnitEnum;
 
 class SnapshotScheduleResource extends Resource
 {
     protected static ?string $model = SnapshotSchedule::class;
+
     protected static ?string $slug = 'portal-snapshot-schedules';
+
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function canViewAny(): bool
+    {
+        return ManagerGate::allows();
+    }
+
+    public static function canCreate(): bool
+    {
+        return ManagerGate::allows();
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return ManagerGate::allows();
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return ManagerGate::allows();
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return ManagerGate::allows();
+    }
 
     public static function getNavigationLabel(): string
     {
         return (string) config('filament-portal-snapshot.navigation.schedules_label', 'Snapshot schedules');
     }
 
-    public static function getNavigationIcon(): string | BackedEnum | null
+    public static function getNavigationIcon(): string|BackedEnum|null
     {
         return 'heroicon-o-clock';
     }
 
-    public static function getNavigationGroup(): string | UnitEnum | null
+    public static function getNavigationGroup(): string|UnitEnum|null
     {
         return FilamentPortalSnapshotPlugin::get()->getNavigationGroup();
     }
@@ -137,10 +168,10 @@ class SnapshotScheduleResource extends Resource
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
-                \Filament\Actions\Action::make('runNow')->label('Run now')->icon('heroicon-o-play')->requiresConfirmation()
+                Action::make('runNow')->label('Run now')->icon('heroicon-o-play')->requiresConfirmation()
                     ->action(function (SnapshotSchedule $record): void {
                         \Artisan::call('portal-snapshot:run-schedules', ['--force-id' => $record->id]);
-                        \Filament\Notifications\Notification::make()->title("Ran \u201c{$record->name}\u201d")->success()->send();
+                        Notification::make()->title("Ran \u201c{$record->name}\u201d")->success()->send();
                     }),
             ])
             ->toolbarActions([

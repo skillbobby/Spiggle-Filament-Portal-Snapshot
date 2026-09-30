@@ -10,6 +10,11 @@ class EditSnapshotSchedule extends EditRecord
 {
     protected static string $resource = SnapshotScheduleResource::class;
 
+    public static function canAccess(array $parameters = []): bool
+    {
+        return SnapshotScheduleResource::canViewAny();
+    }
+
     protected function getHeaderActions(): array
     {
         return [

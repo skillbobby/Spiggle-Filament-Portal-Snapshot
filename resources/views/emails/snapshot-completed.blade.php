@@ -11,7 +11,7 @@
                 <table width="560" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff; border-radius:16px; padding:32px; border:1px solid #e2e8f0;">
                     <tr>
                         <td>
-                            <p style="margin:0 0 8px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#64748b;">Spiggle Portal Snapshot</p>
+                            <p style="margin:0 0 8px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#64748b;">{{ config('app.name') }}</p>
                             <h1 style="margin:0 0 16px; font-size:22px; line-height:1.3;">{{ $title }}</h1>
                             <p style="margin:0 0 20px; font-size:15px; line-height:1.6; color:#334155;">{{ $body }}</p>
                             @if (! empty($meta))

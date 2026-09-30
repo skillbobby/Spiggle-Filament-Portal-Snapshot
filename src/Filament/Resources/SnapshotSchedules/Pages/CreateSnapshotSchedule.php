@@ -8,4 +8,9 @@ use Spiggle\FilamentPortalSnapshot\Filament\Resources\SnapshotSchedules\Snapshot
 class CreateSnapshotSchedule extends CreateRecord
 {
     protected static string $resource = SnapshotScheduleResource::class;
+
+    public static function canAccess(array $parameters = []): bool
+    {
+        return SnapshotScheduleResource::canViewAny();
+    }
 }

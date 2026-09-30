@@ -24,13 +24,15 @@ use Spiggle\FilamentPortalSnapshot\Jobs\RestoreSnapshotJob;
 use Spiggle\FilamentPortalSnapshot\Models\SnapshotOperation;
 use Spiggle\FilamentPortalSnapshot\Services\RemoteStorageService;
 use Spiggle\FilamentPortalSnapshot\Services\SnapshotManager;
+use Spiggle\FilamentPortalSnapshot\Support\ManagerGate;
 use UnitEnum;
 
 class ManageSnapshots extends Page implements HasTable
 {
     use InteractsWithTable;
 
-    protected static string $view = 'filament-portal-snapshot::pages.manage-snapshots';
+    protected string $view = 'filament-portal-snapshot::pages.manage-snapshots';
+
     protected static ?string $slug = 'portal-snapshots';
 
     public static function getNavigationLabel(): string
@@ -38,12 +40,12 @@ class ManageSnapshots extends Page implements HasTable
         return FilamentPortalSnapshotPlugin::get()->getNavigationLabel();
     }
 
-    public static function getNavigationIcon(): string | BackedEnum | null
+    public static function getNavigationIcon(): string|BackedEnum|null
     {
         return FilamentPortalSnapshotPlugin::get()->getNavigationIcon();
     }
 
-    public static function getNavigationGroup(): string | UnitEnum | null
+    public static function getNavigationGroup(): string|UnitEnum|null
     {
         return FilamentPortalSnapshotPlugin::get()->getNavigationGroup();
     }
@@ -53,19 +55,19 @@ class ManageSnapshots extends Page implements HasTable
         return FilamentPortalSnapshotPlugin::get()->getNavigationSort();
     }
 
-    public function getHeading(): string | Htmlable
+    public function getHeading(): string|Htmlable
     {
         return 'Portal snapshots';
     }
 
-    public function getSubheading(): string | Htmlable | null
+    public function getSubheading(): string|Htmlable|null
     {
         return 'Create, schedule, export and revert database snapshots. Restores drop tables on the target connection.';
     }
 
     public static function canAccess(): bool
     {
-        return FilamentPortalSnapshotPlugin::get()->isAuthorized();
+        return FilamentPortalSnapshotPlugin::get()->isAuthorized() && ManagerGate::allows();
     }
 
     public function table(Table $table): Table
