@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="art/banner.png" alt="Spiggle Filament Portal Snapshot" width="100%">
+</p>
+
 # Spiggle Filament Portal Snapshot
 
 A Filament **4.x and 5.x** panel plugin for creating, scheduling, restoring, exporting, and remotely storing database snapshots with automated demo resets. It gives operators a calm, powerful dashboard to:
