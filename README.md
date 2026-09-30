@@ -76,4 +76,4 @@ PORTAL_SNAPSHOT_MAIL_RECIPIENTS=ops@example.com
 
 ## License
 
-MIT \ Spiggle - @iamspiggle
+MIT \ Spiggle - <a href = "https://x.com/@iamspiggle">@iamspiggle</a>
