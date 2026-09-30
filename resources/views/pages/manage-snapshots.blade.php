@@ -3,8 +3,7 @@
         <article class="spiggle-note">
             <h2>How this works</h2>
             <p>
-                Snapshots are SQL dumps managed by
-                <strong>spatie/laravel-db-snapshots</strong>.
+                Snapshots are SQL dumps stored in your configured storage disk.
                 Create them on demand or on a schedule. Restore is how a demo portal resets itself every night.
             </p>
         </article>

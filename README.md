@@ -1,6 +1,6 @@
 # Spiggle Filament Portal Snapshot
 
-A Filament **4.x and 5.x** panel plugin for database snapshots. It sits on top of [`spatie/laravel-db-snapshots`](https://github.com/spatie/laravel-db-snapshots) and gives operators a calm place to:
+A Filament **4.x and 5.x** panel plugin for creating, scheduling, restoring, exporting, and remotely storing database snapshots with automated demo resets. It gives operators a calm, powerful dashboard to:
 
 - take a snapshot now
 - restore / revert a snapshot
@@ -15,10 +15,9 @@ A Filament **4.x and 5.x** panel plugin for database snapshots. It sits on top o
 
 | Package | Version |
 | --- | --- |
-| PHP | ^8.2 |
+| PHP | ^8.3 |
 | Laravel | 11, 12 or 13 |
 | Filament | ^4.0 or ^5.0 |
-| `spatie/laravel-db-snapshots` | ^2.6 |
 
 ## Installation
 
