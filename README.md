@@ -1,5 +1,5 @@
-<p align="center">
-  <img src="art/banner.png" alt="Spiggle Filament Portal Snapshot" width="100%">
+<p class="filament-hidden" align="center">
+  <img class="filament-hidden" src="art/banner.png" alt="Spiggle Filament Portal Snapshot" width="100%">
 </p>
 
 # Spiggle Filament Portal Snapshot
