@@ -24,6 +24,7 @@ use Spiggle\FilamentPortalSnapshot\Jobs\RestoreSnapshotJob;
 use Spiggle\FilamentPortalSnapshot\Models\SnapshotOperation;
 use Spiggle\FilamentPortalSnapshot\Services\RemoteStorageService;
 use Spiggle\FilamentPortalSnapshot\Services\SnapshotManager;
+use Spiggle\FilamentPortalSnapshot\Services\SnapshotSettings;
 use Spiggle\FilamentPortalSnapshot\Support\ManagerGate;
 use UnitEnum;
 
@@ -34,6 +35,8 @@ class ManageSnapshots extends Page implements HasTable
     protected string $view = 'filament-portal-snapshot::pages.manage-snapshots';
 
     protected static ?string $slug = 'portal-snapshots';
+
+    protected static ?string $title = 'Portal snapshots';
 
     public static function getNavigationLabel(): string
     {
@@ -68,6 +71,23 @@ class ManageSnapshots extends Page implements HasTable
     public static function canAccess(): bool
     {
         return FilamentPortalSnapshotPlugin::get()->isAuthorized() && ManagerGate::allows();
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('settings')
+                ->label('Settings')
+                ->icon('heroicon-o-cog-6-tooth')
+                ->url(fn (): string => SnapshotSettingsPage::getUrl())
+                ->visible(fn (): bool => FilamentPortalSnapshotPlugin::get()->hasSettings()),
+        ];
+    }
+
+    /** @return array{disk: string, driver: string, location: string, writable: bool, exists: bool, label: string} */
+    public function storageStatus(): array
+    {
+        return app(SnapshotSettings::class)->status();
     }
 
     public function table(Table $table): Table
@@ -117,7 +137,7 @@ class ManageSnapshots extends Page implements HasTable
                     ->visible(fn (array $record): bool => ! $record['is_golden'])
                     ->action(function (array $record): void {
                         app(SnapshotManager::class)->markGolden($record['name']);
-                        Notification::make()->title("\u201c{$record['name']}\u201d is now the golden snapshot")
+                        Notification::make()->title("“{$record['name']}” is now the golden snapshot")
                             ->body('Demo reset schedules can restore this snapshot every night.')->success()->send();
                     }),
                 Action::make('delete')->label('Delete')->icon('heroicon-o-trash')->color('danger')->requiresConfirmation()
@@ -151,7 +171,7 @@ class ManageSnapshots extends Page implements HasTable
                 'file_name' => $snapshot->fileName,
                 'compressed' => filled($snapshot->compressionExtension),
                 'size' => $snapshot->size(),
-                'size_for_humans' => $snapshot->size() ? number_format($snapshot->size() / 1024, 1).' KB' : '\u2014',
+                'size_for_humans' => $this->humanSize($snapshot->size()),
                 'created_at' => $snapshot->createdAt(),
                 'is_golden' => $golden === $snapshot->name,
             ]];
@@ -207,7 +227,7 @@ class ManageSnapshots extends Page implements HasTable
         );
 
         Notification::make()->title('Snapshot queued')
-            ->body('You will get a panel notification \u2014 and an email if mail is configured \u2014 when it finishes.')
+            ->body('You will get a panel notification — and an email if mail is configured — when it finishes.')
             ->success()->send();
     }
 
@@ -215,7 +235,7 @@ class ManageSnapshots extends Page implements HasTable
     protected function queueRestore(string $name, array $data): void
     {
         RestoreSnapshotJob::dispatch(name: $name, connection: $data['connection'] ?? null, actorId: auth()->id());
-        Notification::make()->title('Restore queued')->body("\u201c{$name}\u201d will be loaded onto the selected connection.")->warning()->send();
+        Notification::make()->title('Restore queued')->body("“{$name}” will be loaded onto the selected connection.")->warning()->send();
     }
 
     protected function download(string $name)
@@ -223,6 +243,29 @@ class ManageSnapshots extends Page implements HasTable
         $snapshot = app(SnapshotManager::class)->download($name);
 
         return $snapshot->disk->download($snapshot->fileName);
+    }
+
+    protected function humanSize(mixed $bytes): string
+    {
+        if (! is_numeric($bytes)) {
+            return '—';
+        }
+
+        $bytes = (int) $bytes;
+
+        if ($bytes < 1024) {
+            return $bytes.' B';
+        }
+
+        if ($bytes < 1048576) {
+            return number_format($bytes / 1024, 1).' KB';
+        }
+
+        if ($bytes < 1073741824) {
+            return number_format($bytes / 1048576, 1).' MB';
+        }
+
+        return number_format($bytes / 1073741824, 1).' GB';
     }
 
     /** @return list<string>|null */

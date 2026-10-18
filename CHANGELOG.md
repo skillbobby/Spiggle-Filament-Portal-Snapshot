@@ -2,6 +2,18 @@
 
 All notable changes to `spiggle/filament-portal-snapshot` will be documented in this file.
 
+## 1.1.0 - 2026-10-18
+
+### Added
+
+- Stylesheet for the snapshots page, so the guide cards, storage summary and activity list render as a finished panel
+- Snapshot settings page for the storage disk, local directory, remote copies, notifications, restore safety and queue
+- Settings are saved in the database and applied on boot, with config and environment values as the defaults
+
+### Fixed
+
+- Notification titles that printed literal `\u201c` escape sequences
+
 ## 1.0.0 - 2026-09-28
 
 ### Added

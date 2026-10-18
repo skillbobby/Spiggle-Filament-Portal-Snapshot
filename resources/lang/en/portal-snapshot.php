@@ -5,6 +5,7 @@ return [
         'group' => 'Portal',
         'snapshots' => 'Snapshots',
         'schedules' => 'Snapshot schedules',
+        'settings' => 'Snapshot settings',
     ],
     'pages' => [
         'snapshots' => [

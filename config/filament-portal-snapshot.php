@@ -7,7 +7,12 @@ return [
         'sort' => 80,
         'label' => 'Snapshots',
         'schedules_label' => 'Snapshot schedules',
+        'settings_label' => 'Snapshot settings',
         'cluster' => null,
+    ],
+    'storage' => [
+        'disk' => env('PORTAL_SNAPSHOT_DISK', 'snapshots'),
+        'path' => env('PORTAL_SNAPSHOT_PATH'),
     ],
     'queue' => env('PORTAL_SNAPSHOT_QUEUE', 'default'),
     'queue_connection' => env('PORTAL_SNAPSHOT_QUEUE_CONNECTION'),

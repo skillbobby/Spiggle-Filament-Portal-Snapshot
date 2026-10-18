@@ -171,7 +171,7 @@ class SnapshotScheduleResource extends Resource
                 Action::make('runNow')->label('Run now')->icon('heroicon-o-play')->requiresConfirmation()
                     ->action(function (SnapshotSchedule $record): void {
                         \Artisan::call('portal-snapshot:run-schedules', ['--force-id' => $record->id]);
-                        Notification::make()->title("Ran \u201c{$record->name}\u201d")->success()->send();
+                        Notification::make()->title("Ran “{$record->name}”")->success()->send();
                     }),
             ])
             ->toolbarActions([

@@ -1,0 +1,280 @@
+/*
+ * Portal Snapshot page chrome.
+ *
+ * Shipped as plain CSS and registered with Filament so it does not depend on
+ * the host theme scanning this package. Tokens fall back when the Spiggle
+ * theme is not installed.
+ */
+
+.spiggle-snapshot {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.spiggle-snapshot-storage,
+.spiggle-note,
+.spiggle-activity {
+    background: var(--spiggle-surface, #ffffff);
+    border: 1px solid var(--spiggle-border-color, #e2e8f0);
+    border-radius: var(--radius-spiggle, 0.75rem);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.spiggle-snapshot-storage {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    padding: 0.95rem 1.15rem;
+}
+
+.spiggle-snapshot-kicker {
+    margin: 0;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--spiggle-primary, #2563eb);
+}
+
+.spiggle-snapshot-path {
+    margin: 0.2rem 0 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--spiggle-heading, #0f172a);
+    word-break: break-word;
+}
+
+.spiggle-snapshot-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.55rem;
+    margin: 0.35rem 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--spiggle-muted, #64748b);
+}
+
+.spiggle-snapshot-link {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    background: var(--spiggle-primary, #2563eb);
+    color: #ffffff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.spiggle-snapshot-link:hover {
+    background: var(--spiggle-primary-hover, #1d4ed8);
+    color: #ffffff;
+}
+
+.spiggle-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    background: var(--spiggle-surface-muted, #f1f5f9);
+    color: var(--spiggle-heading, #0f172a);
+}
+
+.spiggle-pill.is-ok {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.spiggle-pill.is-bad {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.spiggle-note-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+    margin: 0;
+}
+
+.spiggle-note {
+    margin: 0;
+    padding: 1.05rem 1.15rem 1.15rem;
+}
+
+.spiggle-note-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0.65rem;
+    background: var(--spiggle-primary-soft, #e8eefc);
+    color: var(--spiggle-primary, #2563eb);
+}
+
+.spiggle-note-icon svg {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+.spiggle-note h2 {
+    margin: 0 0 0.35rem;
+    font-size: 0.975rem;
+    font-weight: 700;
+    letter-spacing: -0.011em;
+    line-height: 1.3;
+    color: var(--spiggle-heading, #0f172a);
+}
+
+.spiggle-note p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: var(--spiggle-body, #334155);
+}
+
+.spiggle-activity {
+    overflow: hidden;
+}
+
+.spiggle-activity-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1.15rem;
+    border-bottom: 1px solid var(--spiggle-border-color, #e2e8f0);
+}
+
+.spiggle-activity-head h3 {
+    margin: 0;
+    font-size: 0.975rem;
+    font-weight: 700;
+    letter-spacing: -0.011em;
+    color: var(--spiggle-heading, #0f172a);
+}
+
+.spiggle-activity-head span {
+    font-size: 0.75rem;
+    color: var(--spiggle-muted, #64748b);
+}
+
+.spiggle-activity-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1.15rem;
+    border-top: 1px solid var(--spiggle-border-color, #e2e8f0);
+}
+
+.spiggle-activity-row:first-of-type {
+    border-top: 0;
+}
+
+.spiggle-activity-title {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--spiggle-heading, #0f172a);
+}
+
+.spiggle-activity-title span {
+    font-weight: 500;
+    color: var(--spiggle-muted, #64748b);
+}
+
+.spiggle-activity-message {
+    margin: 0.2rem 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--spiggle-body, #334155);
+}
+
+.spiggle-activity-meta {
+    flex: none;
+    text-align: right;
+}
+
+.spiggle-activity-meta p {
+    margin: 0.28rem 0 0;
+    font-size: 0.75rem;
+    color: var(--spiggle-muted, #64748b);
+}
+
+.spiggle-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.12rem 0.5rem;
+    border-radius: 999px;
+    background: var(--spiggle-surface-muted, #f1f5f9);
+    color: var(--spiggle-heading, #0f172a);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: capitalize;
+}
+
+.spiggle-status-succeeded {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.spiggle-status-failed {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.spiggle-status-running,
+.spiggle-status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+@media (min-width: 960px) {
+    .spiggle-note-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .spiggle-snapshot-storage,
+    .spiggle-activity-row {
+        flex-direction: column;
+    }
+
+    .spiggle-activity-meta {
+        text-align: left;
+    }
+}
+
+html.dark .spiggle-pill.is-ok,
+html.dark .spiggle-status-succeeded {
+    background: #052e16;
+    color: #86efac;
+}
+
+html.dark .spiggle-pill.is-bad,
+html.dark .spiggle-status-failed {
+    background: #450a0a;
+    color: #fca5a5;
+}
+
+html.dark .spiggle-status-running,
+html.dark .spiggle-status-pending {
+    background: #451a03;
+    color: #fcd34d;
+}

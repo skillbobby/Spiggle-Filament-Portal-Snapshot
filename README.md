@@ -57,14 +57,18 @@ Ensure Laravel's scheduler is running. The plugin registers `portal-snapshot:run
 ## Demo reset
 
 1. Create a snapshot while the portal looks correct.
-2. Mark it golden on **Portal \u2192 Snapshots**.
+2. Mark it golden on **Portal → Snapshots**.
 3. Add a schedule: Restore snapshot / Every night at 00:00 / Restore the golden snapshot.
 
 ## Configuration
 
-See `config/filament-portal-snapshot.php` for restore environments, confirmation phrase, remote disks, mail recipients, retention and queue settings.
+Open **Snapshot settings** in the panel to choose the storage disk and local directory, remote copies, notifications, restore environments and the queue. Saved settings are stored in `portal_snapshot_settings` and override the config file on the next request.
+
+You can still set defaults in `config/filament-portal-snapshot.php` and the environment. Use **Reset to config defaults** on the settings page to drop the saved values.
 
 ```env
+PORTAL_SNAPSHOT_DISK=snapshots
+PORTAL_SNAPSHOT_PATH=
 PORTAL_SNAPSHOT_COMPRESS=true
 PORTAL_SNAPSHOT_KEEP=14
 PORTAL_SNAPSHOT_QUEUE=default
@@ -76,4 +80,4 @@ PORTAL_SNAPSHOT_MAIL_RECIPIENTS=ops@example.com
 
 ## License
 
-MIT \ Spiggle - <a href = "https://x.com/@iamspiggle">@iamspiggle</a>
+MIT © Spiggle - <a href="https://x.com/@iamspiggle">@iamspiggle</a>

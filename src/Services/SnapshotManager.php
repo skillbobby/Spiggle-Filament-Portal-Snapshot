@@ -100,7 +100,7 @@ class SnapshotManager
             ]);
 
             $this->notifications->completed(
-                title: "Snapshot \u201c{$name}\u201d created",
+                title: "Snapshot “{$name}” created",
                 body: 'The database dump finished successfully.',
                 success: true,
                 actor: $actor,
@@ -112,7 +112,7 @@ class SnapshotManager
             $operation->markFailed($exception->getMessage());
 
             $this->notifications->completed(
-                title: "Snapshot \u201c{$name}\u201d failed",
+                title: "Snapshot “{$name}” failed",
                 body: $exception->getMessage(),
                 success: false,
                 actor: $actor,
@@ -167,7 +167,7 @@ class SnapshotManager
             $operation->markSucceeded('Snapshot restored.');
 
             $this->notifications->completed(
-                title: "Snapshot \u201c{$name}\u201d restored",
+                title: "Snapshot “{$name}” restored",
                 body: 'The database was reverted to this snapshot.',
                 success: true,
                 actor: $actor,
@@ -179,7 +179,7 @@ class SnapshotManager
             $operation->markFailed($exception->getMessage());
 
             $this->notifications->completed(
-                title: "Restore of \u201c{$name}\u201d failed",
+                title: "Restore of “{$name}” failed",
                 body: $exception->getMessage(),
                 success: false,
                 actor: $actor,
@@ -245,7 +245,7 @@ class SnapshotManager
             $operation->markSucceeded("Copied to {$path}.", ['path' => $path, 'disk' => $disk]);
 
             $this->notifications->completed(
-                title: "Snapshot \u201c{$snapshot->name}\u201d copied remotely",
+                title: "Snapshot “{$snapshot->name}” copied remotely",
                 body: "Stored at {$path}.",
                 success: true,
                 actor: $actor,
@@ -257,7 +257,7 @@ class SnapshotManager
             $operation->markFailed($exception->getMessage());
 
             $this->notifications->completed(
-                title: "Remote copy of \u201c{$snapshot->name}\u201d failed",
+                title: "Remote copy of “{$snapshot->name}” failed",
                 body: $exception->getMessage(),
                 success: false,
                 actor: $actor,
@@ -395,7 +395,11 @@ class SnapshotManager
     /** @return array<string, list<array<string, mixed>>> */
     protected function exportPluginTables(string $connection): array
     {
-        $tables = ['portal_snapshot_schedules', 'portal_snapshot_operations'];
+        $tables = [
+            'portal_snapshot_schedules',
+            'portal_snapshot_operations',
+            'portal_snapshot_settings',
+        ];
         $payload = [];
 
         foreach ($tables as $table) {

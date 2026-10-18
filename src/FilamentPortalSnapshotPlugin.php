@@ -9,6 +9,7 @@ use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use LogicException;
 use Spiggle\FilamentPortalSnapshot\Filament\Pages\ManageSnapshots;
+use Spiggle\FilamentPortalSnapshot\Filament\Pages\SnapshotSettingsPage;
 use Spiggle\FilamentPortalSnapshot\Filament\Resources\SnapshotSchedules\SnapshotScheduleResource;
 use Spiggle\FilamentPortalSnapshot\Filament\Widgets\SnapshotStatsWidget;
 use UnitEnum;
@@ -27,7 +28,12 @@ class FilamentPortalSnapshotPlugin implements Plugin
     /** @var class-string<SnapshotScheduleResource> */
     protected string $scheduleResource = SnapshotScheduleResource::class;
 
+    /** @var class-string<SnapshotSettingsPage> */
+    protected string $settingsPage = SnapshotSettingsPage::class;
+
     protected bool $hasSchedules = true;
+
+    protected bool $hasSettings = true;
 
     protected bool $hasStatsWidget = true;
 
@@ -79,6 +85,10 @@ class FilamentPortalSnapshotPlugin implements Plugin
 
             if ($this->hasSchedules) {
                 $panel->resources([$this->scheduleResource]);
+            }
+
+            if ($this->hasSettings) {
+                $panel->pages([$this->settingsPage]);
             }
 
             if ($this->hasStatsWidget) {
@@ -135,6 +145,25 @@ class FilamentPortalSnapshotPlugin implements Plugin
     public function hasSchedules(): bool
     {
         return $this->hasSchedules;
+    }
+
+    public function settings(bool $condition = true): static
+    {
+        $this->hasSettings = $condition;
+
+        return $this;
+    }
+
+    public function hasSettings(): bool
+    {
+        return $this->hasSettings;
+    }
+
+    public function usingSettingsPage(string $page): static
+    {
+        $this->settingsPage = $page;
+
+        return $this;
     }
 
     public function statsWidget(bool $condition = true): static
