@@ -17,13 +17,16 @@ class RestoreSnapshotJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
+    public ?string $database = null;
+
     public function __construct(
         public string $name,
-        public ?string $connection = null,
+        ?string $connection = null,
         public bool $dropTables = true,
         public ?int $actorId = null,
         public ?int $scheduleId = null,
     ) {
+        $this->database = $connection;
         $this->onQueue(config('filament-portal-snapshot.queue', 'default'));
 
         if ($connectionName = config('filament-portal-snapshot.queue_connection')) {
@@ -35,7 +38,7 @@ class RestoreSnapshotJob implements ShouldQueue
     {
         $manager->restore(
             name: $this->name,
-            connection: $this->connection,
+            connection: $this->database,
             dropTables: $this->dropTables,
             actor: $this->resolveActor(),
             scheduleId: $this->scheduleId,

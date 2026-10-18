@@ -21,9 +21,11 @@ class CreateSnapshotJob implements ShouldQueue
      * @param  list<string>|null  $tables
      * @param  list<string>|null  $exclude
      */
+    public ?string $database = null;
+
     public function __construct(
         public ?string $name = null,
-        public ?string $connection = null,
+        ?string $connection = null,
         public bool $compress = true,
         public ?array $tables = null,
         public ?array $exclude = null,
@@ -32,6 +34,7 @@ class CreateSnapshotJob implements ShouldQueue
         public ?int $actorId = null,
         public ?int $scheduleId = null,
     ) {
+        $this->database = $connection;
         $this->onQueue(config('filament-portal-snapshot.queue', 'default'));
 
         if ($connectionName = config('filament-portal-snapshot.queue_connection')) {
@@ -45,7 +48,7 @@ class CreateSnapshotJob implements ShouldQueue
 
         $manager->create(
             name: $this->name,
-            connection: $this->connection,
+            connection: $this->database,
             compress: $this->compress,
             tables: $this->tables,
             exclude: $this->exclude,

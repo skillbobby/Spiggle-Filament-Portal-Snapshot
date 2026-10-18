@@ -2,6 +2,12 @@
 
 All notable changes to `spiggle/filament-portal-snapshot` will be documented in this file.
 
+## 1.1.1 - 2026-10-18
+
+### Fixed
+
+- Creating or restoring a snapshot no longer fatals on PHP 8.3+. The database connection argument was stored separately from Laravel's queue connection.
+
 ## 1.1.0 - 2026-10-18
 
 ### Added
